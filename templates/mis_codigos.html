@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Códigos - QR Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --surface-card: #ffffff;
+            --border-subtle: #e2e8f0;
+            --primary: #2563eb;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand { font-weight: 800; font-size: 20px; color: var(--primary); }
+        .nav-links a { color: var(--text-muted); text-decoration: none; margin-left: 24px; font-weight: 600; font-size: 14px; }
+        .nav-links a.active, .nav-links a:hover { color: var(--primary); }
+
+        .container {
+            max-width: 950px;
+            margin: 36px auto;
+            padding: 0 20px;
+        }
+
+        .panel {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 28px;
+        }
+
+        h1 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+        p.subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card img {
+            width: 140px;
+            height: 140px;
+            margin-bottom: 12px;
+        }
+
+        .url-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            word-break: break-all;
+            margin-bottom: 14px;
+            max-height: 32px;
+            overflow: hidden;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-download, .btn-delete {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-download {
+            background: #f1f5f9;
+            color: var(--text-main);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-download:hover { background: #e2e8f0; }
+
+        .btn-delete {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .btn-delete:hover { background: var(--danger); color: white; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">QR Studio</div>
+        <div class="nav-links">
+            <a href="/">Inicio</a>
+            <a href="/mis-codigos" class="active">Mis Códigos</a>
+            <a href="/soporte">Soporte</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="panel">
+            <h1>Mis Códigos Guardados</h1>
+            <p class="subtitle">Gestiona y elimina tus códigos generados en la sesión.</p>
+
+            {% if not codigos %}
+                <p style="color: var(--text-muted); font-size: 14px;">No tienes ningún código guardado.</p>
+            {% endif %}
+
+            <div class="grid">
+                {% for qr in codigos %}
+                    <div class="card">
+                        <img src="data:image/png;base64,{{ qr.imagen }}" alt="QR">
+                        <p class="url-text">{{ qr.url }}</p>
+
+                        <div class="card-actions">
+                            <a href="data:image/png;base64,{{ qr.imagen }}" download="codigo_qr.png" class="btn-download">
+                                Descargar
+                            </a>
+                            
+                            <form action="/eliminar-qr/{{ loop.index0 }}" method="POST" style="flex: 1;" onsubmit="return confirm('¿Seguro que quieres eliminar este código QR?');">
+                                <button type="submit" class="btn-delete" style="width: 100%;">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

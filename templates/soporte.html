@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte - QR Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --surface-card: #ffffff;
+            --border-subtle: #e2e8f0;
+            --primary: #2563eb;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand { font-weight: 800; font-size: 20px; color: var(--primary); }
+        .nav-links a { color: var(--text-muted); text-decoration: none; margin-left: 24px; font-weight: 600; font-size: 14px; }
+        .nav-links a.active, .nav-links a:hover { color: var(--primary); }
+
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .panel {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 480px;
+            padding: 32px;
+        }
+
+        h1 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+        p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+
+        .btn-back {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">QR Studio</div>
+        <div class="nav-links">
+            <a href="/">Inicio</a>
+            <a href="/mis-codigos">Mis Códigos</a>
+            <a href="/soporte" class="active">Soporte</a>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="panel">
+            <h1>Soporte técnico</h1>
+            <p>Si tienes problemas para generar tus códigos QR, revisa lo siguiente:</p>
+            <p>• Asegúrate de que la URL empiece con <strong>https://</strong> o <strong>http://</strong>.</p>
+            <p>• El logo que subas debe ser una imagen en formato <strong>PNG o JPG</strong>.</p>
+            <a href="/" class="btn-back">Volver al Generador</a>
+        </div>
+    </div>
+
+</body>
+</html>

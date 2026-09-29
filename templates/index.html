@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Studio</title>
+    
+    <!-- Configuración PWA -->
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#2563eb">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --surface-card: #ffffff;
+            --border-subtle: #e2e8f0;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-weight: 800;
+            font-size: 20px;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.15s ease;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-install {
+            background: #eff6ff;
+            color: var(--primary);
+            border: 1px solid #bfdbfe;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-install:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .workspace {
+            max-width: 1050px;
+            margin: 36px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 28px;
+            width: 100%;
+        }
+
+        .panel {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-number {
+            background: #eff6ff;
+            color: var(--primary);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-subtle);
+            background: #f8fafc;
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            background: #ffffff;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .color-picker {
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 8px 12px;
+        }
+
+        input[type="color"] {
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            background: transparent;
+            margin-right: 10px;
+        }
+
+        .preview-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .qr-display-box {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            margin-bottom: 16px;
+            min-height: 250px;
+        }
+
+        .qr-display-box img {
+            max-width: 200px;
+            max-height: 200px;
+            display: block;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: background 0.15s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+        }
+
+        @media (max-width: 800px) {
+            .workspace { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">QR Studio</div>
+        <div class="nav-links">
+            <a href="/" class="active">Inicio</a>
+            <a href="/mis-codigos">Mis Códigos</a>
+            <a href="/soporte">Soporte</a>
+            
+            <button id="btnInstall" class="btn-install" onclick="instalarApp()">
+                💻 Descargar App
+            </button>
+        </div>
+    </nav>
+
+    <div class="workspace">
+        <form method="POST" enctype="multipart/form-data" class="panel">
+            <div class="section-title">
+                <span class="section-number">1</span> Ingresa la información
+            </div>
+            
+            <div class="form-group">
+                <label>Enlace o texto de destino</label>
+                <input type="text" name="url" placeholder="https://ejemplo.com" required autocomplete="off">
+            </div>
+
+            <div class="section-title" style="margin-top: 28px;">
+                <span class="section-number">2</span> Personaliza el diseño
+            </div>
+
+            <div class="form-group">
+                <label>Colores del QR</label>
+                <div class="color-grid">
+                    <div class="color-picker">
+                        <input type="color" name="fill_color" value="#0f172a">
+                        <span style="font-size: 12px; color: var(--text-muted);">Módulos</span>
+                    </div>
+                    <div class="color-picker">
+                        <input type="color" name="back_color" value="#ffffff">
+                        <span style="font-size: 12px; color: var(--text-muted);">Fondo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Logo central (opcional)</label>
+                <input type="file" name="logo" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Generar código QR
+            </button>
+        </form>
+
+        <div class="preview-side">
+            <div class="panel" style="width: 100%;">
+                <div class="section-title">
+                    <span class="section-number">3</span> Resultado
+                </div>
+
+                <div class="qr-display-box">
+                    {% if qr_creado %}
+                        <img id="qrImage" src="data:image/png;base64,{{ qr_creado }}" alt="Código QR">
+                    {% else %}
+                        <span style="color: var(--text-muted); font-size: 13px;">Genera un código para ver el resultado</span>
+                    {% endif %}
+                </div>
+
+                {% if qr_creado %}
+                    <a href="data:image/png;base64,{{ qr_creado }}" download="codigo_qr.png" class="btn btn-secondary">
+                        Descargar imagen PNG
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js')
+                .then(() => console.log('SW activo'))
+                .catch(err => console.log('SW error:', err));
+        }
+
+        let deferredPrompt;
+        const btnInstall = document.getElementById('btnInstall');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        function instalarApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        btnInstall.style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert('Para instalar la app, haz clic en el botón de instalación que aparece en la barra de direcciones de tu navegador (Chrome o Edge).');
+            }
+        }
+    </script>
+</body>
+</html>
