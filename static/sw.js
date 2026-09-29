@@ -1,15 +1,12 @@
-const CACHE_NAME = 'qr-studio-cache-v1';
-
+// static/sw.js
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(['/']);
-    })
-  );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (e) => {
+  return self.clients.claim();
 });
 
 self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
-  );
+  e.respondWith(fetch(e.request));
 });

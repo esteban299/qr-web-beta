@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Studio</title>
-    
-    <!-- Configuración PWA -->
-    <link rel="manifest" href="/static/manifest.json">
-    <meta name="theme-color" content="#2563eb">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,27 +67,6 @@
 
         .nav-links a.active, .nav-links a:hover {
             color: var(--primary);
-        }
-
-        .btn-install {
-            background: #eff6ff;
-            color: var(--primary);
-            border: 1px solid #bfdbfe;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.15s ease;
-        }
-
-        .btn-install:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
         }
 
         .workspace {
@@ -261,10 +236,6 @@
             <a href="/" class="active">Inicio</a>
             <a href="/mis-codigos">Mis Códigos</a>
             <a href="/soporte">Soporte</a>
-            
-            <button id="btnInstall" class="btn-install" onclick="instalarApp()">
-                💻 Descargar App
-            </button>
         </div>
     </nav>
 
@@ -330,34 +301,5 @@
         </div>
     </div>
 
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/static/sw.js')
-                .then(() => console.log('SW activo'))
-                .catch(err => console.log('SW error:', err));
-        }
-
-        let deferredPrompt;
-        const btnInstall = document.getElementById('btnInstall');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
-
-        function instalarApp() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        btnInstall.style.display = 'none';
-                    }
-                    deferredPrompt = null;
-                });
-            } else {
-                alert('Para instalar la app, haz clic en el botón de instalación que aparece en la barra de direcciones de tu navegador (Chrome o Edge).');
-            }
-        }
-    </script>
 </body>
 </html>
