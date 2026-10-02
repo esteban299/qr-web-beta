@@ -11,7 +11,8 @@ lista_qrs = []
 
 @app.route('/robots.txt')
 def robots():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'robots.txt')
+    content = "User-agent: *\nAllow: /\n"
+    return Response(content, mimetype="text/plain")
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
