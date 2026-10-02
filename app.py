@@ -9,6 +9,17 @@ app = Flask(__name__)
 # Lista en memoria para guardar los códigos generados
 lista_qrs = []
 
+@app.route('/sitemap.xml')
+def sitemap():
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        <url>
+            <loc>https://qr-web-beta.onrender.com/</loc>
+            <changefreq>weekly</changefreq>
+            <priority>1.0</priority>
+        </url>
+    </urlset>"""
+    return Response(xml, mimetype='application/xml')
 @app.route('/robots.txt')
 def robots():
     content = "User-agent: *\nAllow: /\n"
