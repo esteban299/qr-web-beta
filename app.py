@@ -9,6 +9,9 @@ app = Flask(__name__)
 # Lista en memoria para guardar los códigos generados
 lista_qrs = []
 
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'robots.txt')
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
