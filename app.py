@@ -22,8 +22,7 @@ def sitemap():
     return Response(xml, mimetype='application/xml')
 @app.route('/robots.txt')
 def robots():
-    content = "User-agent: *\nAllow: /\n"
-    return Response(content, mimetype="text/plain")
+    return "User-agent: *\nAllow: /\n", 200, {'Content-Type': 'text/plain'}
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
