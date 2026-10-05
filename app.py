@@ -20,9 +20,11 @@ def sitemap():
         </url>
     </urlset>"""
     return Response(xml, mimetype='application/xml')
+
 @app.route('/robots.txt')
 def robots():
-    return "User-agent: *\nAllow: /\n", 200, {'Content-Type': 'text/plain'}
+    content = "User-agent: *\nAllow: /\nSitemap: https://qr-web-beta.onrender.com/sitemap.xml"
+    return Response(content, mimetype='text/plain')
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
